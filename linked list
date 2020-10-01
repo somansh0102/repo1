@@ -1,0 +1,115 @@
+//code by vikash
+#include<bits/stdc++.h>
+using namespace std;
+
+// define a node
+struct Node{
+    int data;
+    Node* next;
+};
+
+//print the list
+void print_ll(struct Node* n)
+{
+    while(n!=NULL)
+    {
+        cout<<n->data<<" ";
+        n=n->next;
+    }
+    return;
+}
+
+//insert a node with value m at the end
+void append(Node* n,int m ) 
+{
+    Node* new_node =new Node();
+    new_node->data =m;
+    new_node->next=NULL;
+    while(n->next!=NULL)
+    {
+        n= n->next;
+    }
+    n->next = new_node; 
+
+ 
+    return;
+}
+
+//add a node at start
+void push(Node** head,int m)
+{
+    Node* new_node= new Node();
+    new_node->data=m;
+    new_node->next =*head;
+    *head = new_node;
+}
+//add a node in btw i.e after value x
+void add_node(Node* n,int m,int x){
+    Node* new_node = new Node();
+    new_node->data =m;
+    Node* temp=n;
+    
+    while(temp->data!=x)
+    {
+        temp = temp->next;
+        n = temp;
+    }
+    new_node->next=n->next;
+    n->next=new_node;
+
+}
+// delete a node
+void delete_node(Node** head,int x)
+{
+    Node* temp=*head;
+    Node* prev_node = NULL;
+    if(temp->data==x)   // can use (*head)->data instead of temp
+    *head = temp->next; // we need to shift head if 1st element is deleted
+    else{
+        while(temp!=NULL && temp->data!=x)
+        {
+            prev_node = temp;
+            temp = temp->next;
+        }
+        if(temp!=NULL && prev_node->data==x)
+        prev_node->next = temp->next;
+    }
+    if(temp==NULL)
+    {
+        return;
+    }
+    free(temp);
+}
+
+int main(){
+
+    Node* head=new Node();
+    Node *temp = new Node();
+    Node* second = new Node();
+    Node* third =new Node();
+     
+     head->data=1; 
+     head->next=second;
+     second->data  = 2;
+     second->next = third;
+     third->data = 3;
+     third->next = NULL;
+        
+    print_ll(head);
+    append(head,4);
+    printf(" \nAfter Adding 4 at the end : \n");
+    print_ll(head);
+    push(&head,0);
+    printf(" \nAfter Adding 0 at the start : \n");
+    print_ll(head);
+    add_node(head,100,third->data);
+    printf(" \nAfter Adding 100 in btw : \n");
+    print_ll(head);
+    
+    delete_node(&head,110);
+    printf(" \nAfter deleting 100 : \n");
+    print_ll(head);
+
+    return 0;
+
+}
